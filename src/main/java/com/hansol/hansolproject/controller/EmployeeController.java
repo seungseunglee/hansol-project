@@ -3,6 +3,7 @@ package com.hansol.hansolproject.controller;
 import com.hansol.hansolproject.model.Employee;
 import com.hansol.hansolproject.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,5 +29,10 @@ public class EmployeeController {
     @GetMapping("/{id}")
     public Optional<Employee> retrieveEmployee(@PathVariable Long id) {
         return employeeService.getEmployeeById(id);
+    }
+
+    @PostMapping
+    public Long createEmployee(@RequestBody Employee request) {
+        return employeeService.createEmployee(request);
     }
 }

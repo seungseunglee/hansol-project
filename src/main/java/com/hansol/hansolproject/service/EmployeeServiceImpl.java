@@ -2,7 +2,6 @@ package com.hansol.hansolproject.service;
 
 import com.hansol.hansolproject.mapper.EmployeeMapper;
 import com.hansol.hansolproject.model.Employee;
-import com.hansol.hansolproject.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,6 +28,12 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public Optional<Employee> getEmployeeById(Long id) {
         return employeeMapper.findById(id);
+    }
+
+    @Override
+    public Long createEmployee(Employee employee) {
+        employeeMapper.insert(employee);
+        return employee.getId();
     }
 
 }
