@@ -1,4 +1,4 @@
-package com.hansol.hansolproject.model;
+package com.hansol.hansolproject.domain;
 
 import lombok.*;
 
