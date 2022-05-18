@@ -37,13 +37,22 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public Long updateEmployee(Employee employee) {
-        return employeeMapper.updateEmployee(employee);
+    public Long updateEmployee(Employee oldEmp, Employee newEmp) {
+        oldEmp.setName(newEmp.getName());
+        oldEmp.setPosition(newEmp.getPosition());
+        oldEmp.setTask(newEmp.getTask());
+        oldEmp.setTelephone(newEmp.getTelephone());
+        oldEmp.setWork(newEmp.getWork());
+
+        employeeMapper.updateEmployee(oldEmp);
+
+        return oldEmp.getId(); //TODO return 값 수정
     }
 
     @Override
-    public Long deleteEmployee(Employee employee) {
-        return employeeMapper.deleteEmployee(employee);
+    public Long deleteEmployee(Long id) {
+        employeeMapper.deleteEmployee(id);
+        return id;
     }
 
 

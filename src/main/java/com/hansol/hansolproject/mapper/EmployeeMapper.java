@@ -17,6 +17,6 @@ public interface EmployeeMapper {
 
     Long updateEmployee(Employee employee);
 
-    Long deleteEmployee(Employee employee);
+    Long deleteEmployee(Long employee);
 
 }

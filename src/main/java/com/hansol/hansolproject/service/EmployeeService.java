@@ -10,7 +10,7 @@ public interface EmployeeService {
     Long createEmployee(Employee employee);
     List<Employee> getEmployeeById();
     Optional<Employee> getEmployeeById(Long id);
-    Long updateEmployee(Employee employee);
-    Long deleteEmployee(Employee employee);
+    Long updateEmployee(Employee oldEmp, Employee newEmp);
+    Long deleteEmployee(Long id);
 
 }

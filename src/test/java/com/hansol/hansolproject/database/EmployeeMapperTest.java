@@ -18,9 +18,14 @@ class EmployeeMapperTest {
 
     @Test
     public void getEmployeeByIdTest() {
-
         Optional<Employee> employee = employeeMapper.selectEmployeeById(1L);
         assertThat(employee.orElse(new Employee("?", "?")).getName()).isEqualTo("손흥민");
+    }
+
+    @Test
+    public void deleteEmployee() {
+        long id = employeeMapper.deleteEmployee(6L);
+        assertThat(id).isEqualTo(6L);
     }
 }
 

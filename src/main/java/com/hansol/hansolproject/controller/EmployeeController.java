@@ -1,6 +1,7 @@
 package com.hansol.hansolproject.controller;
 
 import com.hansol.hansolproject.domain.Employee;
+import com.hansol.hansolproject.exception.NotFoundException;
 import com.hansol.hansolproject.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -34,5 +35,20 @@ public class EmployeeController {
         return employeeService.getEmployeeById(id);
     }
 
+    @PutMapping("/{id}")
+    public Long updateEmployee(@PathVariable Long id, @RequestBody Employee request) {
+
+        Employee employee = employeeService.getEmployeeById(id)
+                .orElseThrow(() -> new NotFoundException(id));
+
+        employeeService.updateEmployee(employee, request);
+
+        return id; //TODO return 값 변경
+    }
+
+    @DeleteMapping("/{id}")
+    public Long deleteEmployee(@PathVariable Long id) {
+        return employeeService.deleteEmployee(id);
+    }
 
 }
