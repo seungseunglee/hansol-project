@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hansol.hansolproject.mapper.EmployeeMapper">
+    <resultMap type="Employee" id="employeeResultMap">
+        <id property="id" column="employee_id" />
+        <result property="name" column="name"/>
+        <result property="position" column="position" />
+        <result property="task" column="task" />
+        <result property="telephone" column="telephone" />
+        <association property="work" column="work_id" columnPrefix="w_" resultMap="workResultMap"/>
+    </resultMap>
+
+    <resultMap type="Work" id="workResultMap">
+        <id property="id" column="work_id" />
+        <result property="code" column="code"/>
+        <result property="name" column="name" />
+    </resultMap>
+
+    <select id="selectAllEmployees" resultMap="employeeResultMap">
+        SELECT e.employee_id,
+               e.name,
+               e.position,
+               e.task,
+               e.telephone,
+               w.work_id AS w_work_id,
+               w.code AS w_code,
+               w.name AS w_name
+        FROM employee e
+        INNER JOIN work w ON e.work_id = w.work_id
+        ORDER BY e.employee_id
+    </select>
+
+    <select id="selectEmployeeById" parameterType="Long" resultMap="employeeResultMap">
+        SELECT e.employee_id,
+               e.name,
+               e.position,
+               e.task,
+               e.telephone,
+               w.work_id AS w_work_id,
+               w.code AS w_code,
+               w.name AS w_name
+        FROM employee e
+        INNER JOIN work w ON e.work_id = w.work_id
+        WHERE e.employee_id = #{id}
+    </select>
+
+    <insert id="insertEmployee" parameterType="Employee" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO employee (name, position, task, telephone, work_id)
+        VALUES (#{name}, #{position}, #{task}, #{telephone}, #{work.id})
+    </insert>
+
+    <update id="updateEmployee" parameterType="Employee">
+        UPDATE employee
+        SET name=#{name}, position=#{position}, task=#{task}, telephone=#{telephone}, work_id=#{work.id}
+        WHERE employee_id=#{id}
+    </update>
+
+    <delete id="deleteEmployee" parameterType="Employee">
+        DELETE FROM employee
+        WHERE employee_id=#{id}
+    </delete>
+
+</mapper>
