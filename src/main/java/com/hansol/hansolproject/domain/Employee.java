@@ -1,4 +1,4 @@
-package com.hansol.hansolproject.model;
+package com.hansol.hansolproject.domain;
 
 import lombok.*;
 
@@ -9,11 +9,9 @@ public class Employee {
     @NonNull
     private String name;
     @NonNull
-    private String company1;
-    private String company2;
-    @NonNull
     private String position;
     private String task;
     private String telephone;
+    private Work work;
 
 }
