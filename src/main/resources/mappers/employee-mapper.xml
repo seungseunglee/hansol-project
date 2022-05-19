@@ -54,11 +54,13 @@
         UPDATE employee
         SET name=#{name}, position=#{position}, task=#{task}, telephone=#{telephone}, work_id=#{work.id}
         WHERE employee_id=#{id}
+        LIMIT 1
     </update>
 
     <delete id="deleteEmployee" parameterType="Long">
         DELETE FROM employee
         WHERE employee_id=#{id}
+        LIMIT 1
     </delete>
 
 </mapper>

@@ -7,10 +7,10 @@ import java.util.Optional;
 
 public interface EmployeeService {
 
-    Long createEmployee(Employee employee);
-    List<Employee> getEmployeeById();
+    List<Employee> getAllEmployees();
     Optional<Employee> getEmployeeById(Long id);
-    Long updateEmployee(Employee oldEmp, Employee newEmp);
-    Long deleteEmployee(Long id);
+    Long createEmployee(String name, String position, String task, String telephone, Long workId);
+    void updateEmployee(Employee employee, String name, String position, String task, String telephone, Long workId);
+    void deleteEmployee(Long id);
 
 }

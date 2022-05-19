@@ -6,9 +6,7 @@ import lombok.*;
 public class Employee {
 
     private Long id;
-    @NonNull
     private String name;
-    @NonNull
     private String position;
     private String task;
     private String telephone;

@@ -9,14 +9,14 @@ import java.util.Optional;
 @Mapper
 public interface EmployeeMapper {
 
-    void insertEmployee(Employee employee); //TODO return Long
+    Long insertEmployee(Employee employee);
 
     List<Employee> selectAllEmployees();
 
     Optional<Employee> selectEmployeeById(Long id);
 
-    Long updateEmployee(Employee employee);
+    void updateEmployee(Employee employee);
 
-    Long deleteEmployee(Long employee);
+    void deleteEmployee(Long employee);
 
 }
