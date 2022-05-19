@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hansol.hansolproject.mapper.WorkMapper">
+    <resultMap type="Work" id="workResultMap">
+        <id property="id" column="work_id" />
+        <result property="code" column="code"/>
+        <result property="name" column="name" />
+    </resultMap>
+
+    <select id="selectAllWorks" resultMap="workResultMap">
+        SELECT *
+        FROM work
+        ORDER BY work_id
+    </select>
+
+    <select id="selectWorkById" parameterType="Long" resultMap="workResultMap">
+        SELECT *
+        FROM work
+        WHERE work_id = #{id}
+    </select>
+
+    <insert id="insertWork" parameterType="Work" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO work (code, name)
+        VALUES (#{code}, #{name})
+    </insert>
+
+    <update id="updateWork" parameterType="Work">
+        UPDATE work
+        SET code=#{code}, name=#{name}
+        WHERE work_id=#{id}
+        LIMIT 1
+    </update>
+
+    <delete id="deleteWork" parameterType="Long">
+        DELETE FROM work
+        WHERE work_id=#{id}
+        LIMIT 1
+    </delete>
+
+</mapper>

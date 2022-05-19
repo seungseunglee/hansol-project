@@ -8,13 +8,7 @@
         <result property="position" column="position" />
         <result property="task" column="task" />
         <result property="telephone" column="telephone" />
-        <association property="work" column="work_id" columnPrefix="w_" resultMap="workResultMap"/>
-    </resultMap>
-
-    <resultMap type="Work" id="workResultMap">
-        <id property="id" column="work_id" />
-        <result property="code" column="code"/>
-        <result property="name" column="name" />
+        <association property="work" column="work_id" columnPrefix="w_" resultMap="com.hansol.hansolproject.mapper.WorkMapper.workResultMap"/>
     </resultMap>
 
     <select id="selectAllEmployees" resultMap="employeeResultMap">
