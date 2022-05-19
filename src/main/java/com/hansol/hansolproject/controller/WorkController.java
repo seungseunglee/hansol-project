@@ -62,7 +62,7 @@ public class WorkController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteWork(@PathVariable Long id) {
 
-        final Work work = workService.getWorkById(id)
+        workService.getWorkById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, id + " not founded"));
 
         workService.deleteWork(id);

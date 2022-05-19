@@ -62,7 +62,7 @@ public class EmployeeController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteEmployee(@PathVariable Long id) {
 
-        final Employee employee = employeeService.getEmployeeById(id)
+        employeeService.getEmployeeById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, id + " not founded"));
 
         employeeService.deleteEmployee(id);
