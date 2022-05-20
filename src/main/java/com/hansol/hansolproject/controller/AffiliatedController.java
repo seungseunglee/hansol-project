@@ -4,6 +4,8 @@ import com.hansol.hansolproject.domain.Affiliated;
 import com.hansol.hansolproject.domain.Company;
 import com.hansol.hansolproject.domain.Employee;
 import com.hansol.hansolproject.service.AffiliatedService;
+import com.hansol.hansolproject.service.CompanyService;
+import com.hansol.hansolproject.service.EmployeeService;
 import lombok.Getter;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,10 +21,14 @@ import java.util.List;
 public class AffiliatedController {
 
     private final AffiliatedService affiliatedService;
+    private final EmployeeService employeeService;
+    private final CompanyService companyService;
 
     @Autowired
-    public AffiliatedController(AffiliatedService affiliatedService) {
+    public AffiliatedController(AffiliatedService affiliatedService, EmployeeService employeeService, CompanyService companyService) {
         this.affiliatedService = affiliatedService;
+        this.employeeService = employeeService;
+        this.companyService = companyService;
     }
 
     @GetMapping
@@ -45,6 +51,11 @@ public class AffiliatedController {
     @PostMapping
     public ResponseEntity<?> createAffiliated(@RequestBody AffiliatedDto request) {
 
+        employeeService.getEmployeeById(request.getEmployeeId())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "employee #" + request.getEmployeeId() + " is not founded"));
+        companyService.getCompanyById(request.getCompanyId())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "company #" + request.getCompanyId() + " is not founded"));
+
         final Long id = affiliatedService.createAffiliated(request.getEmployeeId(), request.getCompanyId());
 
         return ResponseEntity.status(HttpStatus.CREATED).body(id);
@@ -52,6 +63,11 @@ public class AffiliatedController {
 
     @PutMapping("/{id}")
     public ResponseEntity<?> updateAffiliated(@PathVariable Long id, @RequestBody AffiliatedDto request) {
+
+        employeeService.getEmployeeById(request.getEmployeeId())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "employee #" + request.getEmployeeId() + " is not founded"));
+        companyService.getCompanyById(request.getCompanyId())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "company #" + request.getCompanyId() + " is not founded"));
 
         final Affiliated affiliated = affiliatedService.getAffiliatedById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "affiliated #" + id + " is not founded"));
