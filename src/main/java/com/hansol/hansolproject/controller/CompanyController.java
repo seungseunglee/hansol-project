@@ -36,7 +36,7 @@ public class CompanyController {
     public ResponseEntity<?> getCompanyById(@PathVariable Long id) {
 
         final Company company = companyService.getCompanyById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, id + " not founded"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "company #" + id + " is not founded"));
 
         return ResponseEntity.ok(company);
     }
@@ -53,7 +53,7 @@ public class CompanyController {
     public ResponseEntity<?> updateCompany(@PathVariable Long id, @RequestBody CompanyDto request) {
 
         final Company company = companyService.getCompanyById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, id + " not founded"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "company #" + id + " is not founded"));
 
         companyService.updateCompany(company, request.getName());
 
@@ -64,7 +64,7 @@ public class CompanyController {
     public ResponseEntity<?> deleteCompany(@PathVariable Long id) {
 
         companyService.getCompanyById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, id + " not founded"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "company #" + id + " is not founded"));
 
         companyService.deleteCompany(id);
 

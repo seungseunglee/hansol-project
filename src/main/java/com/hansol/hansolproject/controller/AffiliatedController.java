@@ -37,7 +37,7 @@ public class AffiliatedController {
     public ResponseEntity<?> getAffiliatedById(@PathVariable Long id) {
 
         final Affiliated affiliated = affiliatedService.getAffiliatedById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, id + " not founded"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "affiliated #" + id + " is not founded"));
 
         return ResponseEntity.ok(affiliated);
     }
@@ -54,7 +54,7 @@ public class AffiliatedController {
     public ResponseEntity<?> updateAffiliated(@PathVariable Long id, @RequestBody AffiliatedDto request) {
 
         final Affiliated affiliated = affiliatedService.getAffiliatedById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, id + " not founded"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "affiliated #" + id + " is not founded"));
 
         affiliatedService.updateAffiliated(affiliated, request.getEmployeeId(), request.getCompanyId());
 
@@ -65,7 +65,7 @@ public class AffiliatedController {
     public ResponseEntity<?> deleteAffiliated(@PathVariable Long id) {
 
         affiliatedService.getAffiliatedById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, id + " not founded"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "affiliated #" + id + " is not founded"));
 
         affiliatedService.deleteAffiliated(id);
 

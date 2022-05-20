@@ -35,13 +35,14 @@ public class EmployeeController {
     public ResponseEntity<?> getEmployeeById(@PathVariable Long id) {
 
         final Employee employee = employeeService.getEmployeeById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, id + " not founded"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "employee #" + id + " is not founded"));
 
         return ResponseEntity.ok(employee);
     }
 
     @PostMapping
     public ResponseEntity<?> createEmployee(@RequestBody EmployeeDto request) {
+
 
         final Long id = employeeService.createEmployee(request.getName(), request.getPosition(), request.getTask(), request.getTelephone(), request.getWorkId());
 
@@ -52,7 +53,7 @@ public class EmployeeController {
     public ResponseEntity<?> updateEmployee(@PathVariable Long id, @RequestBody EmployeeDto request) {
 
         final Employee employee = employeeService.getEmployeeById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, id + " not founded"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "employee #" + id + " is not founded"));
 
         employeeService.updateEmployee(employee, request.getName(), request.getPosition(), request.getTask(), request.getTelephone(), request.getWorkId());
 
@@ -63,7 +64,7 @@ public class EmployeeController {
     public ResponseEntity<?> deleteEmployee(@PathVariable Long id) {
 
         employeeService.getEmployeeById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, id + " not founded"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "employee #" + id + " is not founded"));
 
         employeeService.deleteEmployee(id);
 

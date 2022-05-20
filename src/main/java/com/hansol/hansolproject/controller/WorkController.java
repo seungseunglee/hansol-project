@@ -35,7 +35,7 @@ public class WorkController {
     public ResponseEntity<?> getWorkById(@PathVariable Long id) {
 
         final Work work = workService.getWorkById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, id + " not founded"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "work #" + id + " is not founded"));
 
         return ResponseEntity.ok(work);
     }
@@ -52,7 +52,7 @@ public class WorkController {
     public ResponseEntity<?> updateWork(@PathVariable Long id, @RequestBody WorkDto request) {
 
         final Work work = workService.getWorkById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, id + " not founded"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "work #" + id + " is not founded"));
 
         workService.updateWork(work, request.getCode(), request.getName());
 
@@ -63,7 +63,7 @@ public class WorkController {
     public ResponseEntity<?> deleteWork(@PathVariable Long id) {
 
         workService.getWorkById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, id + " not founded"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "work #" + id + " is not founded"));
 
         workService.deleteWork(id);
 
