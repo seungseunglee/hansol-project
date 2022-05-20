@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hansol.hansolproject.mapper.AffiliatedMapper">
+    <resultMap type="Affiliated" id="affiliatedResultMap">
+        <id property="id" column="affiliated_id" />
+        <association property="employee" column="employee_id" columnPrefix="e_" resultMap="com.hansol.hansolproject.mapper.EmployeeMapper.employeeResultMap"/>
+        <association property="company" column="company_id" columnPrefix="c_" resultMap="com.hansol.hansolproject.mapper.CompanyMapper.companyResultMap"/>
+    </resultMap>
+
+    <select id="selectAllAffiliateds" resultMap="affiliatedResultMap">
+        SELECT a.affiliated_id,
+               e.employee_id AS e_employee_id,
+               e.name AS e_name,
+               e.position AS e_position,
+               e.task AS e_task,
+               e.telephone AS e_telephone,
+               w.work_id AS e_w_work_id,
+               w.code AS e_w_code,
+               w.name AS e_w_name,
+               c.company_id AS c_company_id,
+               c.name AS c_name
+        FROM affiliated a, employee e, company c, work w
+        WHERE a.employee_id = e.employee_id
+          AND a.company_id = c.company_id
+          AND e.work_id = w.work_id
+        ORDER BY a.affiliated_id
+    </select>
+
+    <select id="selectAffiliatedById" parameterType="Long" resultMap="affiliatedResultMap">
+        SELECT a.affiliated_id,
+               e.employee_id AS e_employee_id,
+               e.name AS e_name,
+               e.position AS e_position,
+               e.task AS e_task,
+               e.telephone AS e_telephone,
+               w.work_id AS e_w_work_id,
+               w.code AS e_w_code,
+               w.name AS e_w_name,
+               c.company_id AS c_company_id,
+               c.name AS c_name
+        FROM affiliated a, employee e, company c, work w
+        WHERE a.employee_id = e.employee_id
+          AND a.company_id = c.company_id
+          AND e.work_id = w.work_id
+          AND a.affiliated_id = #{id}
+    </select>
+
+    <insert id="insertAffiliated" parameterType="Affiliated" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO affiliated (employee_id, company_id)
+        VALUES (#{employee.id}, #{company.id})
+    </insert>
+
+    <update id="updateAffiliated" parameterType="Affiliated">
+        UPDATE affiliated
+        SET employee_id=#{employee.id}, company_id=#{company.id}
+        WHERE affiliated_id=#{id}
+        LIMIT 1
+    </update>
+
+    <delete id="deleteAffiliated" parameterType="Long">
+        DELETE FROM affiliated
+        WHERE affiliated_id=#{id}
+        LIMIT 1
+    </delete>
+
+</mapper>
