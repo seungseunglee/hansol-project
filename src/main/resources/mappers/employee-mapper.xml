@@ -21,7 +21,7 @@
                w.code AS w_code,
                w.name AS w_name
         FROM employee e
-        INNER JOIN work w ON e.work_id = w.work_id
+        LEFT OUTER JOIN work w ON e.work_id = w.work_id
         ORDER BY e.employee_id
     </select>
 
@@ -35,7 +35,7 @@
                w.code AS w_code,
                w.name AS w_name
         FROM employee e
-        INNER JOIN work w ON e.work_id = w.work_id
+        LEFT OUTER JOIN work w ON e.work_id = w.work_id
         WHERE e.employee_id = #{id}
     </select>
 
