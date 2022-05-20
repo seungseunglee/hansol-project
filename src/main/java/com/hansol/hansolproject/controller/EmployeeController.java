@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -18,12 +17,10 @@ import java.util.List;
 public class EmployeeController {
 
     private final EmployeeService employeeService;
-    private final WorkService workService;
 
     @Autowired
-    public EmployeeController(EmployeeService employeeService, WorkService workService) {
+    public EmployeeController(EmployeeService employeeService) {
         this.employeeService = employeeService;
-        this.workService = workService;
     }
 
     @GetMapping
@@ -37,17 +34,13 @@ public class EmployeeController {
     @GetMapping("/{id}")
     public ResponseEntity<?> getEmployeeById(@PathVariable Long id) {
 
-        final Employee employee = employeeService.getEmployeeById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "employee #" + id + " is not founded"));
+        final Employee employee = employeeService.getEmployeeById(id);
 
         return ResponseEntity.ok(employee);
     }
 
     @PostMapping
     public ResponseEntity<?> createEmployee(@RequestBody EmployeeDto request) {
-
-        workService.getWorkById(request.getWorkId())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "work #" + request.getWorkId() + " is not founded"));
 
         final Long id = employeeService.createEmployee(request.getName(), request.getPosition(), request.getTask(), request.getTelephone(), request.getWorkId());
 
@@ -57,22 +50,13 @@ public class EmployeeController {
     @PutMapping("/{id}")
     public ResponseEntity<?> updateEmployee(@PathVariable Long id, @RequestBody EmployeeDto request) {
 
-        workService.getWorkById(request.getWorkId())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "work #" + request.getWorkId() + " is not founded"));
-
-        final Employee employee = employeeService.getEmployeeById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "employee #" + id + " is not founded"));
-
-        employeeService.updateEmployee(employee, request.getName(), request.getPosition(), request.getTask(), request.getTelephone(), request.getWorkId());
+        employeeService.updateEmployee(id, request.getName(), request.getPosition(), request.getTask(), request.getTelephone(), request.getWorkId());
 
         return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteEmployee(@PathVariable Long id) {
-
-        employeeService.getEmployeeById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "employee #" + id + " is not founded"));
 
         employeeService.deleteEmployee(id);
 

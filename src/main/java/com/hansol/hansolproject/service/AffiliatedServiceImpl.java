@@ -4,22 +4,29 @@ import com.hansol.hansolproject.domain.Affiliated;
 import com.hansol.hansolproject.domain.Company;
 import com.hansol.hansolproject.domain.Employee;
 import com.hansol.hansolproject.mapper.AffiliatedMapper;
+import com.hansol.hansolproject.mapper.CompanyMapper;
+import com.hansol.hansolproject.mapper.EmployeeMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional
 public class AffiliatedServiceImpl implements AffiliatedService {
 
     private final AffiliatedMapper affiliatedMapper;
+    private final EmployeeService employeeService;
+    private final CompanyService companyService;
 
     @Autowired
-    public AffiliatedServiceImpl(AffiliatedMapper affiliatedMapper) {
+    public AffiliatedServiceImpl(AffiliatedMapper affiliatedMapper, EmployeeService employeeService, CompanyService companyService) {
         this.affiliatedMapper = affiliatedMapper;
+        this.employeeService = employeeService;
+        this.companyService = companyService;
     }
 
     @Override
@@ -28,12 +35,31 @@ public class AffiliatedServiceImpl implements AffiliatedService {
     }
 
     @Override
-    public Optional<Affiliated> getAffiliatedById(Long id) {
-        return affiliatedMapper.selectAffiliatedById(id);
+    public Affiliated getAffiliatedById(Long id) {
+
+        final Affiliated affiliated = affiliatedMapper.selectAffiliatedById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "affiliated #" + id + " is not founded"));
+
+        return affiliated;
+    }
+
+    @Override
+    public List<Affiliated> getAffiliatedByEmployeeId(Long id) { //TODO exception
+
+        return affiliatedMapper.selectAffiliatedByEmployeeId(id);
+    }
+
+    @Override
+    public List<Affiliated> getAffiliatedByCompanyId(Long id) { //TODO exception
+
+        return affiliatedMapper.selectAffiliatedByCompanyId(id);
     }
 
     @Override
     public Long createAffiliated(Long employeeId, Long companyId) {
+
+        employeeService.getEmployeeById(employeeId);
+        companyService.getCompanyById(companyId);
 
         Employee employee = new Employee();
         employee.setId(employeeId);
@@ -51,7 +77,14 @@ public class AffiliatedServiceImpl implements AffiliatedService {
     }
 
     @Override
-    public void updateAffiliated(Affiliated affiliated, Long employeeId, Long companyId) {
+    public void updateAffiliated(Long id, Long employeeId, Long companyId) {
+
+        employeeService.getEmployeeById(employeeId);
+        companyService.getCompanyById(companyId);
+
+        final Affiliated affiliated = affiliatedMapper.selectAffiliatedById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "affiliated #" + id + " is not founded"));
+
         affiliated.getEmployee().setId(employeeId);
         affiliated.getCompany().setId(companyId);
 
@@ -60,6 +93,10 @@ public class AffiliatedServiceImpl implements AffiliatedService {
 
     @Override
     public void deleteAffiliated(Long id) {
+
+        affiliatedMapper.selectAffiliatedById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "affiliated #" + id + " is not founded"));
+
         affiliatedMapper.deleteAffiliated(id);
     }
 }

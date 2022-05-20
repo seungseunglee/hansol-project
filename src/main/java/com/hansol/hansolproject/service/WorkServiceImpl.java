@@ -3,11 +3,12 @@ package com.hansol.hansolproject.service;
 import com.hansol.hansolproject.domain.Work;
 import com.hansol.hansolproject.mapper.WorkMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional
@@ -26,8 +27,12 @@ public class WorkServiceImpl implements WorkService {
     }
 
     @Override
-    public Optional<Work> getWorkById(Long id) {
-        return workMapper.selectWorkById(id);
+    public Work getWorkById(Long id) {
+
+        final Work work = workMapper.selectWorkById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "work #" + id + " is not founded"));
+
+        return work;
     }
 
     @Override
@@ -42,7 +47,11 @@ public class WorkServiceImpl implements WorkService {
     }
 
     @Override
-    public void updateWork(Work work, String code, String name) {
+    public void updateWork(Long id, String code, String name) {
+
+        final Work work = workMapper.selectWorkById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "work #" + id + " is not founded"));
+
         work.setCode(code);
         work.setName(name);
 
@@ -51,6 +60,10 @@ public class WorkServiceImpl implements WorkService {
 
     @Override
     public void deleteWork(Long id) {
+
+        workMapper.selectWorkById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "work #" + id + " is not founded"));
+
         workMapper.deleteWork(id);
     }
 }

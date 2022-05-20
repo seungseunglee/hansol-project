@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -35,8 +34,7 @@ public class CompanyController {
     @GetMapping("/{id}")
     public ResponseEntity<?> getCompanyById(@PathVariable Long id) {
 
-        final Company company = companyService.getCompanyById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "company #" + id + " is not founded"));
+        final Company company = companyService.getCompanyById(id);
 
         return ResponseEntity.ok(company);
     }
@@ -52,19 +50,13 @@ public class CompanyController {
     @PutMapping("/{id}")
     public ResponseEntity<?> updateCompany(@PathVariable Long id, @RequestBody CompanyDto request) {
 
-        final Company company = companyService.getCompanyById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "company #" + id + " is not founded"));
-
-        companyService.updateCompany(company, request.getName());
+        companyService.updateCompany(id, request.getName());
 
         return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteCompany(@PathVariable Long id) {
-
-        companyService.getCompanyById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "company #" + id + " is not founded"));
 
         companyService.deleteCompany(id);
 

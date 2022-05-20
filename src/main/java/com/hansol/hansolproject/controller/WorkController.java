@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -34,8 +33,7 @@ public class WorkController {
     @GetMapping("/{id}")
     public ResponseEntity<?> getWorkById(@PathVariable Long id) {
 
-        final Work work = workService.getWorkById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "work #" + id + " is not founded"));
+        final Work work = workService.getWorkById(id);
 
         return ResponseEntity.ok(work);
     }
@@ -51,19 +49,13 @@ public class WorkController {
     @PutMapping("/{id}")
     public ResponseEntity<?> updateWork(@PathVariable Long id, @RequestBody WorkDto request) {
 
-        final Work work = workService.getWorkById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "work #" + id + " is not founded"));
-
-        workService.updateWork(work, request.getCode(), request.getName());
+        workService.updateWork(id, request.getCode(), request.getName());
 
         return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteWork(@PathVariable Long id) {
-
-        workService.getWorkById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "work #" + id + " is not founded"));
 
         workService.deleteWork(id);
 
