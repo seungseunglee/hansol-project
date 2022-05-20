@@ -20,6 +20,12 @@
         WHERE work_id = #{id}
     </select>
 
+    <select id="selectWorkByCode" parameterType="String" resultMap="workResultMap">
+        SELECT *
+        FROM work
+        WHERE code = #{code}
+    </select>
+
     <insert id="insertWork" parameterType="Work" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO work (code, name)
         VALUES (#{code}, #{name})

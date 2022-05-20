@@ -14,6 +14,7 @@ public interface CompanyMapper {
     List<Company> selectAllCompanys();
 
     Optional<Company> selectCompanyById(Long id);
+    Optional<Company> selectCompanyByName(String name);
 
     void updateCompany(Company company);
 

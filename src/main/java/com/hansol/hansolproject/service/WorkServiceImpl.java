@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -36,7 +37,23 @@ public class WorkServiceImpl implements WorkService {
     }
 
     @Override
+    public Work getWorkByCode(String code) {
+
+        final Work work = workMapper.selectWorkByCode(code)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "work #" + code + " is not founded"));
+
+        return work;
+    }
+
+    @Override
     public Long createWork(String code, String name) {
+
+        Optional<Work> isPresent = workMapper.selectWorkByCode(code);
+
+        if (isPresent.isPresent()) {
+            return isPresent.get().getId();
+        }
+
         Work work = new Work();
         work.setCode(code);
         work.setName(name);

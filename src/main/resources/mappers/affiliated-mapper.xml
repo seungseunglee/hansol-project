@@ -46,7 +46,7 @@
           AND a.affiliated_id = #{id}
     </select>
 
-    <select id="selectAffiliatedByEmployeeId" parameterType="Long" resultMap="affiliatedResultMap">
+    <select id="selectAffiliatedsByEmployeeId" parameterType="Long" resultMap="affiliatedResultMap">
         SELECT a.affiliated_id,
                e.employee_id AS e_employee_id,
                e.name AS e_name,
@@ -65,7 +65,7 @@
           AND a.employee_id = #{id}
     </select>
 
-    <select id="selectAffiliatedByCompanyId" parameterType="Long" resultMap="affiliatedResultMap">
+    <select id="selectAffiliatedsByCompanyId" parameterType="Long" resultMap="affiliatedResultMap">
         SELECT a.affiliated_id,
                e.employee_id AS e_employee_id,
                e.name AS e_name,

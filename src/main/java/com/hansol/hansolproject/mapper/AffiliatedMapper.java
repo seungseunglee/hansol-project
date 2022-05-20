@@ -14,8 +14,8 @@ public interface AffiliatedMapper {
     List<Affiliated> selectAllAffiliateds();
 
     Optional<Affiliated> selectAffiliatedById(Long id);
-    List<Affiliated> selectAffiliatedByEmployeeId(Long id);
-    List<Affiliated> selectAffiliatedByCompanyId(Long id);
+    List<Affiliated> selectAffiliatedsByEmployeeId(Long id);
+    List<Affiliated> selectAffiliatedsByCompanyId(Long id);
 
     void updateAffiliated(Affiliated affiliated);
 

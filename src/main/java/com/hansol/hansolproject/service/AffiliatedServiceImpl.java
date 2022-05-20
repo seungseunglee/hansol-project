@@ -44,15 +44,15 @@ public class AffiliatedServiceImpl implements AffiliatedService {
     }
 
     @Override
-    public List<Affiliated> getAffiliatedByEmployeeId(Long id) { //TODO exception
+    public List<Affiliated> getAffiliatedsByEmployeeId(Long id) {
 
-        return affiliatedMapper.selectAffiliatedByEmployeeId(id);
+        return affiliatedMapper.selectAffiliatedsByEmployeeId(id);
     }
 
     @Override
-    public List<Affiliated> getAffiliatedByCompanyId(Long id) { //TODO exception
+    public List<Affiliated> getAffiliatedsByCompanyId(Long id) {
 
-        return affiliatedMapper.selectAffiliatedByCompanyId(id);
+        return affiliatedMapper.selectAffiliatedsByCompanyId(id);
     }
 
     @Override

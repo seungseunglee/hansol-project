@@ -8,6 +8,7 @@ public interface WorkService {
 
     List<Work> getAllWorks();
     Work getWorkById(Long id);
+    Work getWorkByCode(String code);
     Long createWork(String code, String name);
     void updateWork(Long id, String code, String name);
     void deleteWork(Long id);

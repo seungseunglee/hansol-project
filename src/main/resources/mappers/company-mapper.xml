@@ -19,6 +19,12 @@
         WHERE company_id = #{id}
     </select>
 
+    <select id="selectCompanyByName" parameterType="String" resultMap="companyResultMap">
+        SELECT *
+        FROM company
+        WHERE name = #{name}
+    </select>
+
     <insert id="insertCompany" parameterType="Company" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO company (name)
         VALUES (#{name})

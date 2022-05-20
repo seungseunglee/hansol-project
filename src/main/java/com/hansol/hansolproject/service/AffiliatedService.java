@@ -8,8 +8,8 @@ public interface AffiliatedService {
 
     List<Affiliated> getAllAffiliateds();
     Affiliated getAffiliatedById(Long id);
-    List<Affiliated> getAffiliatedByEmployeeId(Long id);
-    List<Affiliated> getAffiliatedByCompanyId(Long id);
+    List<Affiliated> getAffiliatedsByEmployeeId(Long id);
+    List<Affiliated> getAffiliatedsByCompanyId(Long id);
     Long createAffiliated(Long employeeId, Long companyId);
     void updateAffiliated(Long id, Long employeeId, Long companyId);
     void deleteAffiliated(Long id);
