@@ -2,6 +2,7 @@ package com.hansol.hansolproject.controller;
 
 import com.hansol.hansolproject.domain.Employee;
 import com.hansol.hansolproject.service.EmployeeService;
+import com.hansol.hansolproject.service.WorkService;
 import lombok.Getter;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +18,12 @@ import java.util.List;
 public class EmployeeController {
 
     private final EmployeeService employeeService;
+    private final WorkService workService;
 
     @Autowired
-    public EmployeeController(EmployeeService employeeService) {
+    public EmployeeController(EmployeeService employeeService, WorkService workService) {
         this.employeeService = employeeService;
+        this.workService = workService;
     }
 
     @GetMapping
@@ -43,6 +46,8 @@ public class EmployeeController {
     @PostMapping
     public ResponseEntity<?> createEmployee(@RequestBody EmployeeDto request) {
 
+        workService.getWorkById(request.getWorkId())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "work #" + request.getWorkId() + " is not founded"));
 
         final Long id = employeeService.createEmployee(request.getName(), request.getPosition(), request.getTask(), request.getTelephone(), request.getWorkId());
 
@@ -51,6 +56,9 @@ public class EmployeeController {
 
     @PutMapping("/{id}")
     public ResponseEntity<?> updateEmployee(@PathVariable Long id, @RequestBody EmployeeDto request) {
+
+        workService.getWorkById(request.getWorkId())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "work #" + request.getWorkId() + " is not founded"));
 
         final Employee employee = employeeService.getEmployeeById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "employee #" + id + " is not founded"));
