@@ -45,6 +45,14 @@ public class GlobalController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateGlobal(@PathVariable Long id, @RequestBody Global request) {
+
+        globalService.updateGlobal(id, request.getWorkCode(), request.getWorkName(), request.getCompany(), request.getEmpName(), request.getPosition(), request.getTask(), request.getTelephone());
+
+        return ResponseEntity.noContent().build();
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteGlobal(@PathVariable Long id) {
 

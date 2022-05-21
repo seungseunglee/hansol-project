@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -57,6 +58,12 @@ public class AffiliatedServiceImpl implements AffiliatedService {
 
     @Override
     public Long createAffiliated(Long employeeId, Long companyId) {
+
+        Optional<Affiliated> isPresent = affiliatedMapper.selectAffiliatedByEmployeeIdAndCompanyId(employeeId, companyId);
+
+        if (isPresent.isPresent()) {
+            return isPresent.get().getId();
+        }
 
         employeeService.getEmployeeById(employeeId);
         companyService.getCompanyById(companyId);

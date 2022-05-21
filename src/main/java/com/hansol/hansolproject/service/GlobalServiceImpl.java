@@ -70,6 +70,27 @@ public class GlobalServiceImpl implements GlobalService {
     }
 
     @Override
+    public void updateGlobal(Long id, String workCode, String workName, String company, String empName, String position, String task, String telephone) {
+
+        final Employee employee = employeeService.getEmployeeById(id);
+        final Long workId = workService.createWork(workCode, workName);
+
+        employeeService.updateEmployee(id, empName, position, task, telephone, workId);
+
+        affiliatedService.getAffiliatedsByEmployeeId(id)
+                .stream().map(Affiliated::getId)
+                .forEach(affiliatedService::deleteAffiliated);
+
+        String[] companys = company.trim().replace(" ", "").split(",");
+
+        for (String com: companys) {
+            Long companyId = companyService.createCompany(com);
+            affiliatedService.createAffiliated(employee.getId(), companyId);
+        }
+
+    }
+
+    @Override
     public void deleteGlobal(Long id) {
 
         affiliatedService.getAffiliatedsByEmployeeId(id)
@@ -86,6 +107,7 @@ public class GlobalServiceImpl implements GlobalService {
                 .collect(Collectors.joining(", "));
 
         Global global = Global.builder()
+                .empId(employee.getId())
                 .workCode(employee.getWork().getCode())
                 .workName(employee.getWork().getName())
                 .empName(employee.getName())

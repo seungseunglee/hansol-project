@@ -46,6 +46,26 @@
           AND a.affiliated_id = #{id}
     </select>
 
+    <select id="selectAffiliatedByEmployeeIdAndCompanyId" parameterType="Long" resultMap="affiliatedResultMap">
+        SELECT a.affiliated_id,
+               e.employee_id AS e_employee_id,
+               e.name AS e_name,
+               e.position AS e_position,
+               e.task AS e_task,
+               e.telephone AS e_telephone,
+               w.work_id AS e_w_work_id,
+               w.code AS e_w_code,
+               w.name AS e_w_name,
+               c.company_id AS c_company_id,
+               c.name AS c_name
+        FROM affiliated a, employee e, company c, work w
+        WHERE a.employee_id = e.employee_id
+          AND a.company_id = c.company_id
+          AND e.work_id = w.work_id
+          AND a.employee_id = #{employeeId}
+          AND a.company_id = #{companyId}
+    </select>
+
     <select id="selectAffiliatedsByEmployeeId" parameterType="Long" resultMap="affiliatedResultMap">
         SELECT a.affiliated_id,
                e.employee_id AS e_employee_id,

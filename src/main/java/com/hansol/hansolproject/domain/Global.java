@@ -8,6 +8,7 @@ import lombok.Getter;
 @Getter
 public class Global {
 
+    private Long empId;
     private String workCode;
     private String workName;
     private String company;
