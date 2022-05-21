@@ -2,6 +2,7 @@ package com.hansol.hansolproject.controller;
 
 import com.hansol.hansolproject.domain.Work;
 import com.hansol.hansolproject.service.WorkService;
+import io.swagger.annotations.ApiOperation;
 import lombok.Getter;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,7 @@ public class WorkController {
     }
 
     @GetMapping
+    @ApiOperation(value = "모든 업무 조회")
     public ResponseEntity<?> getAllWorks() {
 
         final List<Work> works = workService.getAllWorks();
@@ -31,6 +33,7 @@ public class WorkController {
     }
 
     @GetMapping("/{id}")
+    @ApiOperation(value = "id로 업무 조회")
     public ResponseEntity<?> getWorkById(@PathVariable Long id) {
 
         final Work work = workService.getWorkById(id);
@@ -39,6 +42,7 @@ public class WorkController {
     }
 
     @PostMapping
+    @ApiOperation(value = "업무 생성")
     public ResponseEntity<?> createWork(@RequestBody WorkDto request) {
 
         final Long id = workService.createWork(request.getCode(), request.getName());
@@ -47,6 +51,7 @@ public class WorkController {
     }
 
     @PutMapping("/{id}")
+    @ApiOperation(value = "업무 수정")
     public ResponseEntity<?> updateWork(@PathVariable Long id, @RequestBody WorkDto request) {
 
         workService.updateWork(id, request.getCode(), request.getName());
@@ -55,6 +60,7 @@ public class WorkController {
     }
 
     @DeleteMapping("/{id}")
+    @ApiOperation(value = "업무 삭제")
     public ResponseEntity<?> deleteWork(@PathVariable Long id) {
 
         workService.deleteWork(id);

@@ -2,6 +2,7 @@ package com.hansol.hansolproject.controller;
 
 import com.hansol.hansolproject.domain.Company;
 import com.hansol.hansolproject.service.CompanyService;
+import io.swagger.annotations.ApiOperation;
 import lombok.Getter;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,7 @@ public class CompanyController {
     }
 
     @GetMapping
+    @ApiOperation(value = "모든 회사 조회")
     public ResponseEntity<?> getAllCompanys() {
 
         final List<Company> companys = companyService.getAllCompanys();
@@ -32,6 +34,7 @@ public class CompanyController {
     }
 
     @GetMapping("/{id}")
+    @ApiOperation(value = "id로 회사 조회")
     public ResponseEntity<?> getCompanyById(@PathVariable Long id) {
 
         final Company company = companyService.getCompanyById(id);
@@ -40,6 +43,7 @@ public class CompanyController {
     }
 
     @PostMapping
+    @ApiOperation(value = "회사 생성")
     public ResponseEntity<?> createCompany(@RequestBody CompanyDto request) {
 
         final Long id = companyService.createCompany(request.getName());
@@ -48,6 +52,7 @@ public class CompanyController {
     }
 
     @PutMapping("/{id}")
+    @ApiOperation(value = "회사 수정")
     public ResponseEntity<?> updateCompany(@PathVariable Long id, @RequestBody CompanyDto request) {
 
         companyService.updateCompany(id, request.getName());
@@ -56,6 +61,7 @@ public class CompanyController {
     }
 
     @DeleteMapping("/{id}")
+    @ApiOperation(value = "회사 삭제")
     public ResponseEntity<?> deleteCompany(@PathVariable Long id) {
 
         companyService.deleteCompany(id);

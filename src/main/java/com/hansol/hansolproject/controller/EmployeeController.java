@@ -3,6 +3,7 @@ package com.hansol.hansolproject.controller;
 import com.hansol.hansolproject.domain.Employee;
 import com.hansol.hansolproject.service.EmployeeService;
 import com.hansol.hansolproject.service.WorkService;
+import io.swagger.annotations.ApiOperation;
 import lombok.Getter;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,7 @@ public class EmployeeController {
     }
 
     @GetMapping
+    @ApiOperation(value = "모든 사원 조회")
     public ResponseEntity<?> getAllEmployees() {
 
         final List<Employee> employees = employeeService.getAllEmployees();
@@ -32,6 +34,7 @@ public class EmployeeController {
     }
 
     @GetMapping("/{id}")
+    @ApiOperation(value = "id로 사원 조회")
     public ResponseEntity<?> getEmployeeById(@PathVariable Long id) {
 
         final Employee employee = employeeService.getEmployeeById(id);
@@ -40,6 +43,7 @@ public class EmployeeController {
     }
 
     @PostMapping
+    @ApiOperation(value = "사원 생성")
     public ResponseEntity<?> createEmployee(@RequestBody EmployeeDto request) {
 
         final Long id = employeeService.createEmployee(request.getName(), request.getPosition(), request.getTask(), request.getTelephone(), request.getWorkId());
@@ -48,6 +52,7 @@ public class EmployeeController {
     }
 
     @PutMapping("/{id}")
+    @ApiOperation(value = "사원 수정")
     public ResponseEntity<?> updateEmployee(@PathVariable Long id, @RequestBody EmployeeDto request) {
 
         employeeService.updateEmployee(id, request.getName(), request.getPosition(), request.getTask(), request.getTelephone(), request.getWorkId());
@@ -56,6 +61,7 @@ public class EmployeeController {
     }
 
     @DeleteMapping("/{id}")
+    @ApiOperation(value = "사원 삭제")
     public ResponseEntity<?> deleteEmployee(@PathVariable Long id) {
 
         employeeService.deleteEmployee(id);

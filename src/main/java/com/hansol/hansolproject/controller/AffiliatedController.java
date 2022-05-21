@@ -2,6 +2,7 @@ package com.hansol.hansolproject.controller;
 
 import com.hansol.hansolproject.domain.Affiliated;
 import com.hansol.hansolproject.service.AffiliatedService;
+import io.swagger.annotations.ApiOperation;
 import lombok.Getter;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,11 +19,13 @@ public class AffiliatedController {
     private final AffiliatedService affiliatedService;
 
     @Autowired
+    
     public AffiliatedController(AffiliatedService affiliatedService) {
         this.affiliatedService = affiliatedService;
     }
 
     @GetMapping
+    @ApiOperation(value = "모든 사원-회사 관계 조회")
     public ResponseEntity<?> getAllAffiliateds() {
 
         final List<Affiliated> affiliateds = affiliatedService.getAllAffiliateds();
@@ -31,6 +34,7 @@ public class AffiliatedController {
     }
 
     @GetMapping("/{id}")
+    @ApiOperation(value = "id로 사원-회사 관계 조회")
     public ResponseEntity<?> getAffiliatedById(@PathVariable Long id) {
 
         final Affiliated affiliated = affiliatedService.getAffiliatedById(id);
@@ -39,6 +43,7 @@ public class AffiliatedController {
     }
 
     @PostMapping
+    @ApiOperation(value = "사원-회사 관계 생성")
     public ResponseEntity<?> createAffiliated(@RequestBody AffiliatedDto request) {
 
         final Long id = affiliatedService.createAffiliated(request.getEmployeeId(), request.getCompanyId());
@@ -47,6 +52,7 @@ public class AffiliatedController {
     }
 
     @PutMapping("/{id}")
+    @ApiOperation(value = "사원-회사 관계 수정")
     public ResponseEntity<?> updateAffiliated(@PathVariable Long id, @RequestBody AffiliatedDto request) {
 
         affiliatedService.updateAffiliated(id, request.getEmployeeId(), request.getCompanyId());
@@ -55,6 +61,7 @@ public class AffiliatedController {
     }
 
     @DeleteMapping("/{id}")
+    @ApiOperation(value = "사원-회사 관계 삭제")
     public ResponseEntity<?> deleteAffiliated(@PathVariable Long id) {
 
         affiliatedService.deleteAffiliated(id);
