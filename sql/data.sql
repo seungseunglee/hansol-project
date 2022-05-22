@@ -1,14 +1,18 @@
 -- Delete All Data
-delete from affiliated;
-delete from employee;
-delete from work;
-delete from company;
+set FOREIGN_KEY_CHECKS = 0;
+truncate affiliated;
+truncate employee;
+truncate work;
+truncate company;
 
 -- Set Auto Increment
 alter table affiliated auto_increment = 1;
 alter table employee auto_increment = 1;
 alter table work auto_increment = 1;
 alter table company auto_increment = 1;
+
+-- Insert Data
+set FOREIGN_KEY_CHECKS = 1;
 
 -- Work
 INSERT INTO work (work_id, code, name) VALUES (1, 'W-00001', '인사기획/노무');
