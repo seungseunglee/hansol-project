@@ -70,6 +70,15 @@ public class GlobalServiceImpl implements GlobalService {
     }
 
     @Override
+    public void createGlobalByExcel(List<Global> globals) {
+
+        for (Global global: globals) {
+            createGlobal(global.getWorkCode(), global.getWorkName(), global.getCompany(), global.getEmpName(), global.getPosition(), global.getTask(), global.getTelephone());
+        }
+
+    }
+
+    @Override
     public void updateGlobal(Long id, String workCode, String workName, String company, String empName, String position, String task, String telephone) {
 
         final Employee employee = employeeService.getEmployeeById(id);

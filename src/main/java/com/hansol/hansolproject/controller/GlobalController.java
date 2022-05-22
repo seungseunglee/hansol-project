@@ -3,11 +3,21 @@ package com.hansol.hansolproject.controller;
 import com.hansol.hansolproject.domain.Global;
 import com.hansol.hansolproject.service.*;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -65,6 +75,46 @@ public class GlobalController {
         globalService.deleteGlobal(id);
 
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/excel")
+    public ResponseEntity<?> readExcel(@RequestParam("file") MultipartFile file) throws IOException {
+        List<Global> dataList = new ArrayList<>();
+
+        String extension = FilenameUtils.getExtension(file.getOriginalFilename());
+
+        if (!extension.equals("xlsx") && !extension.equals("xls")) {
+            throw new IOException("엑셀파일만 업로드 해주세요.");
+        }
+
+        Workbook workbook;
+
+        if (extension.equals("xlsx")) {
+            workbook = new XSSFWorkbook(file.getInputStream());
+        } else {
+            workbook = new HSSFWorkbook(file.getInputStream());
+        }
+
+        Sheet worksheet = workbook.getSheetAt(0);
+
+        for (int i = 1; i < worksheet.getPhysicalNumberOfRows(); i++) {
+            Row row = worksheet.getRow(i);
+
+            Global data = Global.builder()
+                    .workCode(row.getCell(0).getStringCellValue())
+                    .workName(row.getCell(1).getStringCellValue())
+                    .company(row.getCell(2).getStringCellValue())
+                    .empName(row.getCell(3).getStringCellValue())
+                    .position(row.getCell(4).getStringCellValue())
+                    .task(row.getCell(5).getStringCellValue())
+                    .telephone(row.getCell(6).getStringCellValue()).build();
+
+            dataList.add(data);
+        }
+
+        globalService.createGlobalByExcel(dataList);
+
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
 }

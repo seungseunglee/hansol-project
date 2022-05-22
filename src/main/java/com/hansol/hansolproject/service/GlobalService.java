@@ -9,6 +9,7 @@ public interface GlobalService {
     List<Global> getAll();
     Global getByEmployeeId(Long id);
     void createGlobal(String workCode, String workName, String company, String empName, String position, String task, String telephone);
+    void createGlobalByExcel(List<Global> globals);
     void updateGlobal(Long id, String workCode, String workName, String company, String empName, String position, String task, String telephone);
     void deleteGlobal(Long id);
 
