@@ -10,8 +10,8 @@
 - Front-end: React.js
 
 ## 프로젝트 구조
-![ERD](images/structure.jpg)
+![ERD](media/images/structure.jpg)
 
 ## ERD
-![ERD](images/erd.jpg)
+![ERD](media/images/erd.jpg)
 
