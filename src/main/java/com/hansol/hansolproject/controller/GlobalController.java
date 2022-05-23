@@ -3,6 +3,7 @@ package com.hansol.hansolproject.controller;
 import com.hansol.hansolproject.domain.Global;
 import com.hansol.hansolproject.service.*;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Row;
@@ -15,7 +16,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -77,8 +77,9 @@ public class GlobalController {
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping("/uploadExcel")
-    public ResponseEntity<?> readExcel(@RequestParam("file") MultipartFile file) throws IOException {
+    @PostMapping(value = "/uploadExcel", consumes = {"multipart/form-data"})
+    @ApiOperation(value = "엑셀 파일 업로드")
+    public ResponseEntity<?> readExcel(@RequestPart("file") MultipartFile file) throws IOException {
         List<Global> dataList = new ArrayList<>();
 
         String extension = FilenameUtils.getExtension(file.getOriginalFilename());
