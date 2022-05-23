@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import DataTable from 'components/DataTable';
 import DataModal from 'components/DataModal';
 import axios from 'axios';
-import {Add, Edit, Delete} from '@mui/icons-material';
+import {Add, Edit, Delete, FileUpload} from '@mui/icons-material';
 import {Button, Stack, Grid} from '@mui/material';
 
 const Home = () => {
@@ -44,7 +44,8 @@ const Home = () => {
             position: position,
             task: task,
             telephone: telephone,
-        }).then(() => {
+        })
+            .then(() => {
                 getData();
         });
     }
@@ -58,7 +59,8 @@ const Home = () => {
             position: position,
             task: task,
             telephone: telephone,
-        }).then(() => {
+        })
+            .then(() => {
                 getData();
         })
     }
@@ -70,14 +72,23 @@ const Home = () => {
         });
     }
 
+    const loadExcelData = (data) => {
+        axios.post(`/api/uploadExcel`, data)
+            .then(() => {
+                getData();
+        });
+    }
+
     const handleCreateData = () => {
         console.log('onClickCreate');
+
         createData();
         handleCreateClose();
     }
 
     const handleUpdateData = () => {
         console.log('onClickUpdate');
+
         updateData(selected);
         handleUpdateClose();
     }
@@ -90,8 +101,19 @@ const Home = () => {
         setSelected([]);
     }
 
+    const handleLoadFile = (e) => {
+        console.log('onClickLoadFile');
+
+        const file = e.target.files[0];
+        const formData = new FormData();
+
+        formData.append('file', file)
+
+        loadExcelData(formData);
+    }
+
     const checkUpdatable = () => {
-        if (selected.length == 1) {
+        if (selected.length === 1) {
             const editData = data.filter(el => el.empId == selected);
 
             setWorkCode(editData[0].workCode);
@@ -120,12 +142,12 @@ const Home = () => {
                     <Button variant="outlined" color="error" startIcon={<Delete />} onClick={handleDeleteData}>
                         삭제
                     </Button>
-                    {/* <label htmlFor="contained-button-file">
-                        <input accept="image/*" id="contained-button-file" multiple type="file" style={{display:'none'}}/>
+                    <label htmlFor="contained-button-file">
+                        <input accept=".xlsx, .xls" id="contained-button-file" type="file" style={{display:'none'}} onChange={handleLoadFile}/>
                         <Button variant="outlined" color="success" startIcon={<FileUpload />} component="span">
                             불러오기
                         </Button>
-                    </label> */}
+                    </label>
                 </Stack>
             </Grid>
             <br/>

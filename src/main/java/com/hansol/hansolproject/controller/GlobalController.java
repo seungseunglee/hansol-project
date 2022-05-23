@@ -77,7 +77,7 @@ public class GlobalController {
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping("/excel")
+    @PostMapping("/uploadExcel")
     public ResponseEntity<?> readExcel(@RequestParam("file") MultipartFile file) throws IOException {
         List<Global> dataList = new ArrayList<>();
 
