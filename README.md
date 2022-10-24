@@ -17,16 +17,16 @@
 
 ## 화면
 1. 메인 화면
-   ![메인화면](public/assets/home.jpg)
+   ![메인화면](src/main/webapp/front-end/public/assets/home.jpg)
 
 2. 생성 화면
-   ![생성화면](public/assets/create.jpg)
+   ![생성화면](src/main/webapp/front-end/public/assets/create.jpg)
 
 3. 수정 화면
-   ![수정화면](public/assets/update.jpg)
+   ![수정화면](src/main/webapp/front-end/public/assets/update.jpg)
 
 4. 삭제 화면
-   ![삭제화면](public/assets/delete.jpg)
+   ![삭제화면](src/main/webapp/front-end/public/assets/delete.jpg)
    
 5. 엑셀 파일 로드 화면
-   ![엑셀파일로드화면](public/assets/excel.jpg)
+   ![엑셀파일로드화면](src/main/webapp/front-end/public/assets/excel.jpg)
